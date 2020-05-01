@@ -20,7 +20,7 @@
         <property name="connection.password">admin</property>
 
         <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
+        <property name="connection.pool_size">5</property>
 
         <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
@@ -35,6 +35,8 @@
         <property name="hbm2ddl.auto">create</property>
 
         <mapping class="ru.khachalov.entity.Library"/>
+        <mapping class="ru.khachalov.entity.Author"/>
+        <mapping class="ru.khachalov.entity.Book"/>
 
     </session-factory>
 

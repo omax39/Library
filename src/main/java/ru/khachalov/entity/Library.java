@@ -1,43 +1,41 @@
 package ru.khachalov.entity;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "library", schema = "srv164864_admin")
 public class Library {
-    private int id;
-    private String name;
-    private String adress;
+
+    public Library() {
+    }
 
     @Id
     @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter
+    @Getter
+    private int id;
 
     @Basic
     @Column(name = "name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Setter
+    @Getter
+    private String name;
 
     @Basic
-    @Column(name = "adress")
-    public String getAdress() {
-        return adress;
-    }
+    @Column(name = "address")
+    @Setter
+    @Getter
+    private String address;
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public Library(String name,String address) {
+        this.name = name;
+        this.address = address;
     }
 
     @Override
@@ -47,11 +45,20 @@ public class Library {
         Library library = (Library) o;
         return id == library.id &&
                 Objects.equals(name, library.name) &&
-                Objects.equals(adress, library.adress);
+                Objects.equals(address, library.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, adress);
+        return Objects.hash(id, name, address);
+    }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", adress='" + address + '\'' +
+                '}';
     }
 }
