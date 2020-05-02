@@ -36,6 +36,5 @@ public class Main {
         dao.displayAuthors();
         dao.displayBooks();
 
-
     }
 }
