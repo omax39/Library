@@ -13,11 +13,13 @@ import java.util.Set;
 @Table(name = "author", schema = "srv164864_admin")
 public class Author {
 
-    public Author(String name, String family, int year, Book book) {
+    public Author(String name, String family, int year, Book[] books) {
         this.name = name;
         this.family = family;
         this.year = year;
-        addBook(book);
+        for (Book b : books){
+            addBook(b);
+        }
     }
     public Author(String name, String family, int year) {
         this.name = name;
