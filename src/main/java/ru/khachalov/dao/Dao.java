@@ -43,9 +43,9 @@ public class Dao {
     public void displayLibraries(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List result = session.createQuery( "from Library" ).list();
-        for ( Library lib : (List<Library>) result ) {
-            System.out.println( lib.toString());
+        List<Library> result = session.createQuery( "from Library" ).list();
+        for ( Library lib : result ) {
+            System.out.println(lib.toString());
         }
         session.getTransaction().commit();
         session.close();
@@ -54,8 +54,8 @@ public class Dao {
     public void displayBooks(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List resultBook = session.createQuery("from Book").list();
-        for ( Book bk : (List<Book>) resultBook ) {
+        List<Book> resultBook = session.createQuery("from Book").list();
+        for ( Book bk : resultBook ) {
             System.out.println( bk.toString());
         }
         session.getTransaction().commit();
@@ -65,8 +65,8 @@ public class Dao {
     public void displayAuthors(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List resultAuthor = session.createQuery("from Author ").list();
-        for ( Author auth : (List<Author>) resultAuthor ) {
+        List<Author> resultAuthor = session.createQuery("from Author ").list();
+        for ( Author auth : resultAuthor ) {
             System.out.println(auth.toString());
         }
         session.getTransaction().commit();
@@ -97,7 +97,34 @@ public class Dao {
         session.close();
     }
 
-    public Library getLibraryByID(int id){
+    public void deleteAuthorById(int id){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Author author = session.load(Author.class, id);
+        session.remove(author);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public void deleteBookById(int id){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Book book = session.load(Book.class, id);
+        session.remove(book);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public void deleteLibraryById(int id){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Library library = session.load(Library.class, id);
+        session.remove(library);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public Library getLibraryById(int id){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Library library = session.get(Library.class, id);
@@ -110,7 +137,7 @@ public class Dao {
         }
     }
 
-    public Author getAuthorByID(int id){
+    public Author getAuthorById(int id){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Author author = session.get(Author.class, id);
@@ -123,7 +150,7 @@ public class Dao {
         }
     }
 
-    public Book getBookByID(int id){
+    public Book getBookById(int id){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Book book = session.get(Book.class, id);

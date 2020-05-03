@@ -26,12 +26,6 @@ public class Main {
         dao.addAuthor(author);
         dao.addAuthor(author1);
 
-//        session = sessionFactory.openSession();
-//        session.beginTransaction();
-//        session.createQuery("delete from Library where id = 1").executeUpdate();
-//        session.getTransaction();
-//        session.close();
-
         dao.displayLibraries();
         dao.displayAuthors();
         dao.displayBooks();
