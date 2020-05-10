@@ -1,56 +1,59 @@
 package ru.khachalov;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import ru.khachalov.entity.Author;
-import ru.khachalov.entity.Book;
+import ru.khachalov.dao.AuthorDao;
+import ru.khachalov.dao.BookDao;
+import ru.khachalov.dao.LibraryDao;
+import ru.khachalov.dao.impl.AuthorDaoImpl;
+import ru.khachalov.dao.impl.BookDaoImpl;
+import ru.khachalov.dao.impl.LibraryDaoImpl;
+import ru.khachalov.dto.Author;
+import ru.khachalov.dto.Book;
+import ru.khachalov.entity.AuthorEntity;
+import ru.khachalov.entity.BookEntity;
 
-import ru.khachalov.entity.Library;
-import ru.khachalov.utils.HibernateUtils;
+import ru.khachalov.entity.LibraryEntity;
+import ru.khachalov.service.AuthorService;
+import ru.khachalov.service.BookService;
+import ru.khachalov.service.impl.AuthorServiceImpl;
+import ru.khachalov.service.impl.BookServiceImpl;
 
 import java.util.List;
-import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
-        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Library library = new Library("CentralLibrary", "Moscow");
-        session.save(library);
+//        BookDao daoBook = new BookDaoImpl();
+//        AuthorDao daoAuthor = new AuthorDaoImpl();
+        LibraryDao daoLibrary = new LibraryDaoImpl();
+        LibraryEntity libraryEntity = new LibraryEntity("CentralLibrary", "Moscow");
         Author author = new Author("John", "Smith", 1987);
         Author author1 = new Author("Mark", "Josh", 1977);
         Book book = new Book("Astronomy", "Sience",
-                2006, 156, author);
-        book.addAuthor(author1);
-        session.save(author);
-        session.save(author1);
-        session.save(book);
-        session.getTransaction().commit();
-        session.close();
-
-//        session = sessionFactory.openSession();
-//        session.beginTransaction();
-//        session.createQuery("delete from Library where id = 1").executeUpdate();
-//        session.getTransaction();
-//        session.close();
-
-
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-        List result = session.createQuery( "from Library" ).list();
-        List resultBook = session.createQuery("from Book").list();
-        List resultAuthor = session.createQuery("from Author ").list();
-        for ( Library lib : (List<Library>) result ) {
-            System.out.println( lib.toString());
+                2006, 156);
+//        daoLibrary.addLibrary(libraryEntity);
+//        daoBook.addBook(bookEntity);
+//        daoAuthor.addAuthor(authorEntity);
+//        daoAuthor.addAuthor(authorEntity1);
+//
+//        daoLibrary.displayLibraries();
+//        daoAuthor.displayAuthors();
+//        daoBook.displayBooks();
+        AuthorDao authorDao = new AuthorDaoImpl();
+        BookDao bookDao = new BookDaoImpl();
+        AuthorService authorService = new AuthorServiceImpl(authorDao);
+        BookService bookService = new BookServiceImpl(bookDao);
+        bookService.add(book);
+        authorService.add(author);
+        authorService.add(author1);
+        book.setAuthorsFromOut(new Author[]{author,author1});
+        List<Author> authorList = authorService.getList();
+        for(Author a : authorList){
+            System.out.println(a.toString());
         }
-        for ( Book bk : (List<Book>) resultBook ) {
-            System.out.println( bk.toString());
+        List<Book> bookList = bookService.getList();
+        for (Book b : bookList){
+            System.out.println(b.toString());
         }
-        for ( Author auth : (List<Author>) resultAuthor ) {
-            System.out.println(auth.toString());
-        }
-        session.getTransaction().commit();
-        session.close();
+
+
     }
 }

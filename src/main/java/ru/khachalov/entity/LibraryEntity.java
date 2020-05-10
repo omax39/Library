@@ -9,9 +9,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "library", schema = "srv164864_admin")
-public class Library {
+public class LibraryEntity {
 
-    public Library() {
+    public LibraryEntity() {
     }
 
     @Id
@@ -33,7 +33,7 @@ public class Library {
     @Getter
     private String address;
 
-    public Library(String name,String address) {
+    public LibraryEntity(String name, String address) {
         this.name = name;
         this.address = address;
     }
@@ -42,10 +42,10 @@ public class Library {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Library library = (Library) o;
-        return id == library.id &&
-                Objects.equals(name, library.name) &&
-                Objects.equals(address, library.address);
+        LibraryEntity libraryEntity = (LibraryEntity) o;
+        return id == libraryEntity.id &&
+                Objects.equals(name, libraryEntity.name) &&
+                Objects.equals(address, libraryEntity.address);
     }
 
     @Override

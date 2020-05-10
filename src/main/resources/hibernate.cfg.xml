@@ -34,9 +34,9 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <mapping class="ru.khachalov.entity.Library"/>
-        <mapping class="ru.khachalov.entity.Author"/>
-        <mapping class="ru.khachalov.entity.Book"/>
+        <mapping class="ru.khachalov.entity.LibraryEntity"/>
+        <mapping class="ru.khachalov.entity.AuthorEntity"/>
+        <mapping class="ru.khachalov.entity.BookEntity"/>
 
     </session-factory>
 

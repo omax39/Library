@@ -5,26 +5,37 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "author", schema = "srv164864_admin")
-public class Author {
+public class AuthorEntity {
 
-    public Author(String name, String family, int year, Book book) {
+    public AuthorEntity(String name, String family, int year, Set<BookEntity> books) {
         this.name = name;
         this.family = family;
         this.year = year;
-        addBook(book);
+        for (BookEntity b : books){
+            addBook(b);
+        }
     }
-    public Author(String name, String family, int year) {
+
+    public AuthorEntity(int id, String name, String family, int year) {
+        this.id = id;
         this.name = name;
         this.family = family;
         this.year = year;
     }
-    public Author() {
+
+    public AuthorEntity(String name, String family, int year) {
+        this.name = name;
+        this.family = family;
+        this.year = year;
+    }
+
+
+    public AuthorEntity() {
     }
 
 
@@ -58,28 +69,28 @@ public class Author {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "book_to_author",  joinColumns = {@JoinColumn(name = "author_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
-    private Set<Book> books = new HashSet<>();
+    private Set<BookEntity> books = new HashSet<>();
 
-    public void addBook(Book book){
-        books.add(book);
-        book.getAuthors().add(this);
+    public void addBook(BookEntity bookEntity){
+        books.add(bookEntity);
+        bookEntity.getAuthors().add(this);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Author author = (Author) o;
-        return id == author.id &&
-                Objects.equals(name, author.name) &&
-                Objects.equals(family, author.family) &&
-                Objects.equals(year, author.year);
+        AuthorEntity authorEntity = (AuthorEntity) o;
+        return id == authorEntity.id &&
+                Objects.equals(name, authorEntity.name) &&
+                Objects.equals(family, authorEntity.family) &&
+                Objects.equals(year, authorEntity.year);
     }
 
     @Override
     public String toString() {
         String s = "";
-        for (Book b : books){
+        for (BookEntity b : books){
             s = s + "( " +
                     b.getName() + ", " +
                     b.getGenre() + ", " +
