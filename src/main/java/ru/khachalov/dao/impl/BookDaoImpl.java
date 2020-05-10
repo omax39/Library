@@ -1,12 +1,8 @@
 package ru.khachalov.dao.impl;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import ru.khachalov.dao.BookDao;
-import ru.khachalov.entity.Author;
-import ru.khachalov.entity.Book;
-import ru.khachalov.entity.Library;
-import ru.khachalov.utils.HibernateUtils;
+import ru.khachalov.entity.BookEntity;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,65 +11,42 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class BookDaoImpl implements BookDao {
-    SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
-    public void addBook(Book book){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(book);
-        session.getTransaction().commit();
-        session.close();
+    public void addBook(BookEntity bookEntity, Session session){
+        session.save(bookEntity);
     }
 
-    public void displayBooks(){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<Book> resultBook = session.createQuery("from Book").list();
-        for ( Book bk : resultBook ) {
+    public void displayBooks(Session session){
+        List<BookEntity> resultBookEntity = session.createQuery("from BookEntity").list();
+        for ( BookEntity bk : resultBookEntity) {
             System.out.println( bk.toString());
         }
-        session.getTransaction().commit();
-        session.close();
     }
 
-    public void deleteBook(Book book){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.remove(book);
-        session.getTransaction().commit();
-        session.close();
+    public void deleteBook(BookEntity bookEntity, Session session){
+        session.remove(bookEntity);
     }
 
-    public void deleteBookById(int id){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Book book = session.load(Book.class, id);
-        session.remove(book);
-        session.getTransaction().commit();
-        session.close();
+    public void deleteBookById(int id, Session session){
+        BookEntity bookEntity = session.load(BookEntity.class, id);
+        session.remove(bookEntity);
     }
 
-    public Book getBookById(int id){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Book book = session.get(Book.class, id);
-        session.getTransaction().commit();
-        session.close();
-        if (book != null){
-            return book;
+    public BookEntity getBookById(int id, Session session){
+        BookEntity bookEntity = session.get(BookEntity.class, id);
+        if (bookEntity != null){
+            return bookEntity;
         } else {
             throw new IllegalArgumentException("There are no element for id in the table");
         }
     }
 
-    public List<Book> getAllBooks(){
-        Session session = sessionFactory.openSession();
+    public List<BookEntity> getAllBooks(Session session){
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
-        Root<Book> rootEntry = cq.from(Book.class);
-        CriteriaQuery<Book> all = cq.select(rootEntry);
-
-        TypedQuery<Book> allQuery = session.createQuery(all);
+        CriteriaQuery<BookEntity> cq = cb.createQuery(BookEntity.class);
+        Root<BookEntity> rootEntry = cq.from(BookEntity.class);
+        CriteriaQuery<BookEntity> all = cq.select(rootEntry);
+        TypedQuery<BookEntity> allQuery = session.createQuery(all);
         return allQuery.getResultList();
     }
 }

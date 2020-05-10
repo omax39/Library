@@ -1,12 +1,8 @@
 package ru.khachalov.dao.impl;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import ru.khachalov.dao.AuthorDao;
-import ru.khachalov.entity.Author;
-import ru.khachalov.entity.Book;
-import ru.khachalov.entity.Library;
-import ru.khachalov.utils.HibernateUtils;
+import ru.khachalov.entity.AuthorEntity;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,65 +11,44 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class AuthorDaoImpl implements AuthorDao {
-    SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
-    public void addAuthor(Author author){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(author);
-        session.getTransaction().commit();
-        session.close();
+    public void addAuthor(AuthorEntity authorEntity, Session session){
+        session.save(authorEntity);
     }
 
-    public void displayAuthors(){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<Author> resultAuthor = session.createQuery("from Author ").list();
-        for ( Author auth : resultAuthor ) {
+    public void displayAuthors(Session session){
+        List<AuthorEntity> resultAuthorEntity = session.createQuery("from AuthorEntity ").list();
+        for ( AuthorEntity auth : resultAuthorEntity) {
             System.out.println(auth.toString());
         }
-        session.getTransaction().commit();
-        session.close();
     }
 
-    public void deleteAuthor(Author author){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.remove(author);
-        session.getTransaction().commit();
-        session.close();
+    public void deleteAuthor(AuthorEntity authorEntity, Session session){
+        session.remove(authorEntity);
     }
 
-    public void deleteAuthorById(int id){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Author author = session.load(Author.class, id);
-        session.remove(author);
-        session.getTransaction().commit();
-        session.close();
+    public void deleteAuthorById(int id, Session session){
+        AuthorEntity authorEntity = session.load(AuthorEntity.class, id);
+        session.remove(authorEntity);
     }
 
-    public Author getAuthorById(int id){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Author author = session.get(Author.class, id);
+    public AuthorEntity getAuthorById(int id, Session session){
+        AuthorEntity authorEntity = session.get(AuthorEntity.class, id);
         session.getTransaction().commit();
-        session.close();
-        if (author != null){
-            return author;
+        if (authorEntity != null){
+            return authorEntity;
         } else {
             throw new IllegalArgumentException("There are no element for id in the table");
         }
     }
 
-    public List<Author> getAllAuthors(){
-        Session session = sessionFactory.openSession();
+    public List<AuthorEntity> getAllAuthors(Session session){
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Author> cq = cb.createQuery(Author.class);
-        Root<Author> rootEntry = cq.from(Author.class);
-        CriteriaQuery<Author> all = cq.select(rootEntry);
+        CriteriaQuery<AuthorEntity> cq = cb.createQuery(AuthorEntity.class);
+        Root<AuthorEntity> rootEntry = cq.from(AuthorEntity.class);
+        CriteriaQuery<AuthorEntity> all = cq.select(rootEntry);
 
-        TypedQuery<Author> allQuery = session.createQuery(all);
+        TypedQuery<AuthorEntity> allQuery = session.createQuery(all);
         return allQuery.getResultList();
     }
 

@@ -5,30 +5,27 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "book", schema = "srv164864_admin")
-public class Book {
+public class BookEntity {
 
-    public Book(String name, String genre, int year, int numOfPages, Author[] authors) {
+    public BookEntity(String name, String genre, int year, int numOfPages, Set<AuthorEntity> authors) {
         this.name = name;
         this.genre = genre;
         this.year = year;
         this.numOfPages = numOfPages;
-        for (Author a : authors){
-            addAuthor(a);
-        }
+        this.authors = authors;
     }
-    public Book(String name, String genre, int year, int numOfPages) {
+    public BookEntity(String name, String genre, int year, int numOfPages) {
         this.name = name;
         this.genre = genre;
         this.year = year;
         this.numOfPages = numOfPages;
     }
-    public Book() {
+    public BookEntity() {
     }
 
     @Id
@@ -65,29 +62,29 @@ public class Book {
     @Setter
     @Getter
     @ManyToMany(mappedBy = "books")
-    private Set<Author> authors = new HashSet<>();
+    private Set<AuthorEntity> authors = new HashSet<>();
 
-    public void addAuthor(Author author){
-        authors.add(author);
-        author.getBooks().add(this);
+    public void addAuthor(AuthorEntity authorEntity){
+        authors.add(authorEntity);
+        authorEntity.getBooks().add(this);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id == book.id &&
-                Objects.equals(name, book.name) &&
-                Objects.equals(genre, book.genre) &&
-                Objects.equals(year, book.year) &&
-                Objects.equals(numOfPages, book.numOfPages);
+        BookEntity bookEntity = (BookEntity) o;
+        return id == bookEntity.id &&
+                Objects.equals(name, bookEntity.name) &&
+                Objects.equals(genre, bookEntity.genre) &&
+                Objects.equals(year, bookEntity.year) &&
+                Objects.equals(numOfPages, bookEntity.numOfPages);
     }
 
     @Override
     public String toString() {
         String s = "";
-        for (Author a : authors){
+        for (AuthorEntity a : authors){
             s = s + "( " +
                     a.getName() + " " +
                     a.getFamily() + ", " +

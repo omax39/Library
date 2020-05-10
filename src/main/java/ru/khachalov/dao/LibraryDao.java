@@ -1,19 +1,19 @@
 package ru.khachalov.dao;
 
-import ru.khachalov.entity.Library;
+import ru.khachalov.entity.LibraryEntity;
 import java.util.List;
 
 public interface LibraryDao {
 
-    void addLibrary(Library library);
+    void addLibrary(LibraryEntity libraryEntity);
 
     void displayLibraries();
 
-    void deleteLibrary(Library library);
+    void deleteLibrary(LibraryEntity libraryEntity);
 
     void deleteLibraryById(int id);
 
-    Library getLibraryById(int id);
+    LibraryEntity getLibraryById(int id);
 
-    List<Library> getAllLibraries();
+    List<LibraryEntity> getAllLibraries();
 }

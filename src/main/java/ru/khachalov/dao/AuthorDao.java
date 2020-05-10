@@ -1,21 +1,22 @@
 package ru.khachalov.dao;
 
-import ru.khachalov.entity.Author;
+import org.hibernate.Session;
+import ru.khachalov.entity.AuthorEntity;
 
 import java.util.List;
 
 public interface AuthorDao {
 
-    void addAuthor(Author author);
+    void addAuthor(AuthorEntity authorEntity, Session session);
 
-    void displayAuthors();
+    void displayAuthors(Session session);
 
-    void deleteAuthor(Author author);
+    void deleteAuthor(AuthorEntity authorEntity, Session session);
 
-    Author getAuthorById(int id);
+    AuthorEntity getAuthorById(int id, Session session);
 
-    List<Author> getAllAuthors();
+    List<AuthorEntity> getAllAuthors(Session session);
 
-    void deleteAuthorById(int id);
+    void deleteAuthorById(int id, Session session);
 
 }

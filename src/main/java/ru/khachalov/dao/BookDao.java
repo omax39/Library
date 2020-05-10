@@ -1,19 +1,20 @@
 package ru.khachalov.dao;
 
-import ru.khachalov.entity.Book;
+import org.hibernate.Session;
+import ru.khachalov.entity.BookEntity;
 import java.util.List;
 
 public interface BookDao {
 
-    void addBook(Book book);
+    void addBook(BookEntity bookEntity, Session session);
 
-    void displayBooks();
+    void displayBooks(Session session);
 
-    void deleteBook(Book book);
+    void deleteBook(BookEntity bookEntity, Session session);
 
-    void deleteBookById(int id);
+    void deleteBookById(int id, Session session);
 
-    Book getBookById(int id);
+    BookEntity getBookById(int id, Session session);
 
-    List<Book> getAllBooks();
+    List<BookEntity> getAllBooks(Session session);
 }
