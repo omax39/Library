@@ -76,6 +76,11 @@ public class AuthorEntity {
         bookEntity.getAuthors().add(this);
     }
 
+    public void setBooksFromOut(Set<BookEntity> books){
+        for (BookEntity b : books){
+            addBook(b);
+        }
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

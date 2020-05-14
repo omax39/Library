@@ -12,12 +12,11 @@ import java.util.Set;
 @Getter
 public class Author {
 
-    public Author(int id, String name, String family, Integer year, Set<BookEntity> books) {
+    public Author(int id, String name, String family, Integer year) {
         this.id = id;
         this.name = name;
         this.family = family;
         this.year = year;
-        this.books = books;
     }
 
     public Author(String name, String family, Integer year) {
@@ -37,39 +36,25 @@ public class Author {
 
     private Integer year;
 
-    private Set<BookEntity> books = new HashSet<>();
-
-    public void setBooksFromOut(Book[] books) {
-        for (Book b : books){
-            BookEntity be = new BookEntity();
-            be.setId(b.getId());
-            be.setName(b.getName());
-            be.setGenre(b.getGenre());
-            be.setYear(b.getYear());
-            be.setNumOfPages(b.getNumOfPages());
-            be.setAuthors(b.getAuthors());
-            this.books.add(be);
-        }
-    }
-
+    private Set<Integer> booksIds = new HashSet<>();
 
     @Override
     public String toString() {
-        String s = "";
-        for (BookEntity b : books){
-            s = s + "( " +
-                    b.getName() + ", " +
-                    b.getGenre() + ", " +
-                    b.getYear() + ", " +
-                    b.getNumOfPages() +
-                    " )";
-        }
+//        String s = "";
+//        for (BookEntity b : books){
+//            s = s + "( " +
+//                    b.getName() + ", " +
+//                    b.getGenre() + ", " +
+//                    b.getYear() + ", " +
+//                    b.getNumOfPages() +
+//                    " )";
+//        }
         return "Author{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", family='" + family + '\'' +
                 ", year=" + year +
-                ", bookEntities=" + s +
+//                ", bookEntities=" + s +
                 '}';
     }
 }

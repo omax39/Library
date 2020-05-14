@@ -40,37 +40,31 @@ public class Book {
 
     private Integer numOfPages;
 
-    private Set<AuthorEntity> authors = new HashSet<>();
+    private Set<Integer> authorsIds = new HashSet<>();
 
     public void setAuthorsFromOut(Author[] authors) {
         for (Author a : authors){
-            AuthorEntity ae = new AuthorEntity();
-//            ae.setId(a.getId());
-            ae.setName(a.getName());
-            ae.setFamily(a.getFamily());
-            ae.setYear(a.getYear());
-            ae.setBooks(a.getBooks());
-            this.authors.add(ae);
+            authorsIds.add(a.getId());
         }
     }
 
     @Override
     public String toString() {
-        String s = "";
-        for (AuthorEntity a: authors){
-            s = s + "( " +
-                    a.getName() + ", " +
-                    a.getFamily() + ", " +
-                    a.getYear() +
-                    " )";
-        }
+//        String s = "";
+//        for (AuthorEntity a: authors){
+//            s = s + "( " +
+//                    a.getName() + ", " +
+//                    a.getFamily() + ", " +
+//                    a.getYear() +
+//                    " )";
+//        }
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", family='" + genre + '\'' +
                 ", year=" + year +
                 ", numOfPages=" + numOfPages +
-                ", bookEntities=" + s +
+//                ", bookEntities=" + s +
                 '}';
     }
 

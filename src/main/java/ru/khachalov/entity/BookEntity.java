@@ -17,7 +17,9 @@ public class BookEntity {
         this.genre = genre;
         this.year = year;
         this.numOfPages = numOfPages;
-        this.authors = authors;
+        for (AuthorEntity a : authors){
+            addAuthor(a);
+        }
     }
     public BookEntity(String name, String genre, int year, int numOfPages) {
         this.name = name;
@@ -67,6 +69,12 @@ public class BookEntity {
     public void addAuthor(AuthorEntity authorEntity){
         authors.add(authorEntity);
         authorEntity.getBooks().add(this);
+    }
+
+    public void setAuthorsFromOut(Set<AuthorEntity> authors){
+        for (AuthorEntity a : authors){
+            addAuthor(a);
+        }
     }
 
     @Override

@@ -2,27 +2,35 @@ package ru.khachalov.service.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import ru.khachalov.dao.AuthorDao;
 import ru.khachalov.dao.BookDao;
 import ru.khachalov.dto.Author;
 import ru.khachalov.dto.Book;
 import ru.khachalov.entity.AuthorEntity;
 import ru.khachalov.entity.BookEntity;
+import ru.khachalov.mappers.BookMapper;
 import ru.khachalov.service.BookService;
 import ru.khachalov.utils.HibernateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class BookServiceImpl implements BookService {
 
     private SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
     private Session session;
+    private AuthorDao authorDao;
+    private BookDao bookDao;
+    BookMapper bookMapper;
 
-    public BookServiceImpl(BookDao bookDao) {
+    public BookServiceImpl(AuthorDao authorDao, BookDao bookDao) {
+        this.authorDao = authorDao;
         this.bookDao = bookDao;
+        this.bookMapper = new BookMapper(authorDao);
     }
 
-    private BookDao bookDao;
+
 
 
 
@@ -32,13 +40,7 @@ public class BookServiceImpl implements BookService {
         List<BookEntity> books = bookDao.getAllBooks(session);
         List<Book> bookList = new ArrayList<>();
         for (BookEntity be : books){
-            Book book = new Book();
-            book.setId(be.getId());
-            book.setName(be.getName());
-            book.setGenre(be.getGenre());
-            book.setYear(be.getYear());
-            book.setNumOfPages(be.getNumOfPages());
-            book.setAuthors(be.getAuthors());
+            Book book = bookMapper.entityToDto(be);
             bookList.add(book);
         }
         return bookList;
@@ -48,9 +50,23 @@ public class BookServiceImpl implements BookService {
     public void add(Book book) {
         session = sessionFactory.openSession();
         session.beginTransaction();
-        bookDao.addBook(new BookEntity(book.getName(), book.getGenre(),
-                book.getYear(), book.getNumOfPages()), session);
+        bookDao.addBook(bookMapper.dtoToEntity(book,session), session);
         session.getTransaction().commit();
         session.close();
+    }
+
+    @Override
+    public void displayBooks(Book book) {
+        session = sessionFactory.openSession();
+        Set<AuthorEntity> authors = authorDao.getAuthorByIds(book.getAuthorsIds(), session);
+        String s = "";
+        for (AuthorEntity a : authors){
+            s = s + "( " +
+                    a.getName() + ", " +
+                    a.getFamily() + ", " +
+                    a.getYear() + ", " +
+                    " )";
+        }
+        System.out.println(book.toString() + ", authors = " + s);
     }
 }

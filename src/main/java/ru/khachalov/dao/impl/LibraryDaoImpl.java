@@ -15,6 +15,7 @@ import java.util.List;
 public class LibraryDaoImpl implements LibraryDao {
     SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
+    @Override
     public void addLibrary(LibraryEntity libraryEntity){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -23,6 +24,7 @@ public class LibraryDaoImpl implements LibraryDao {
         session.close();
     }
 
+    @Override
     public void displayLibraries(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -34,6 +36,7 @@ public class LibraryDaoImpl implements LibraryDao {
         session.close();
     }
 
+    @Override
     public void deleteLibrary(LibraryEntity libraryEntity){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -42,6 +45,7 @@ public class LibraryDaoImpl implements LibraryDao {
         session.close();
     }
 
+    @Override
     public void deleteLibraryById(int id){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -51,6 +55,7 @@ public class LibraryDaoImpl implements LibraryDao {
         session.close();
     }
 
+    @Override
     public LibraryEntity getLibraryById(int id){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -64,6 +69,7 @@ public class LibraryDaoImpl implements LibraryDao {
         }
     }
 
+    @Override
     public List<LibraryEntity> getAllLibraries(){
         Session session = sessionFactory.openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();

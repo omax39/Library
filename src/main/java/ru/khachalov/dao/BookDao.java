@@ -2,7 +2,10 @@ package ru.khachalov.dao;
 
 import org.hibernate.Session;
 import ru.khachalov.entity.BookEntity;
+
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface BookDao {
 
@@ -15,6 +18,8 @@ public interface BookDao {
     void deleteBookById(int id, Session session);
 
     BookEntity getBookById(int id, Session session);
+
+    Set<BookEntity> getBookByIds(Collection<Integer> ids, Session session);
 
     List<BookEntity> getAllBooks(Session session);
 }

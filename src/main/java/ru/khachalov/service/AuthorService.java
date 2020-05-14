@@ -10,4 +10,6 @@ public interface AuthorService {
 
     void add(Author author);
 
+    void displayAuthor(Author author);
+
 }
